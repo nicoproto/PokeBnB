@@ -5,6 +5,11 @@ class PokemonsController < ApplicationController
     @pokemons = policy_scope(Pokemon)
   end
 
+  def show
+		@pokemon = Pokemon.find(params[:id])
+    authorize @pokemon
+	end
+
   def new
     @pokemon = Pokemon.new
 		authorize @pokemon
