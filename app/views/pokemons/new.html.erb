@@ -5,6 +5,7 @@
     <%= f.input :description %>
     <%= f.input :price %>
     <%= f.input :location %>
+    <%= f.association :kinds, as: :check_boxes %>
     <%= f.submit %>
   <% end %>
 </div>

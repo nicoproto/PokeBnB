@@ -16,6 +16,11 @@ class PokemonsController < ApplicationController
 		authorize @pokemon
 
     if @pokemon.save
+      @kinds = Kind.where(id: params[:pokemon][:kind_ids])
+      @kinds.each do |kind|
+        kind_pokemon = KindPokemon.new(pokemon: @pokemon, kind: kind)
+        kind_pokemon.save
+      end
       redirect_to pokemon_path(@pokemon)
     else
       render :new
