@@ -17,7 +17,7 @@ class Booking < ApplicationRecord
   end
 
   def set_total_price
-    total_price = pokemon.price * duration
+    self.total_price = pokemon.price * duration
   end
 
   def end_date_after_start_date
