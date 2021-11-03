@@ -13,4 +13,7 @@ class BookingPolicy < ApplicationPolicy
     user.present?
   end
 
+  def update?
+    user == record.pokemon.user
+  end
 end
