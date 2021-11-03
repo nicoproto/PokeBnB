@@ -6,4 +6,5 @@ class User < ApplicationRecord
 
   has_many :pokemons, dependent: :destroy
   has_many :bookings
+  has_many :received_bookings, through: :pokemons, source: :bookings
 end

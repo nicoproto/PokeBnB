@@ -3,7 +3,7 @@ class DashboardsController < ApplicationController
   after_action :verify_policy_scoped, only: :show
 
   def show
-    @my_bookings = policy_scope(Booking).select { |booking| booking.user == current_user }
-    @my_pokemons_bookings = policy_scope(Booking) - @my_bookings
+    @applied_bookings = policy_scope(current_user.bookings).sort_by(&:start_date).reverse
+    @received_bookings = policy_scope(current_user.received_bookings).sort_by(&:start_date).reverse
   end
 end
