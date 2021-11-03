@@ -16,4 +16,8 @@ class BookingPolicy < ApplicationPolicy
   def update?
     user == record.pokemon.user
   end
+
+  def destroy?
+    (record.start_date - Date.today) > 1
+  end
 end

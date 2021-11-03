@@ -1,5 +1,5 @@
 class BookingsController < ApplicationController
-  before_action :set_booking, only: [:show, :update]
+  before_action :set_booking, only: [:show, :update, :destroy]
 
   def show
     authorize @booking
@@ -28,6 +28,12 @@ class BookingsController < ApplicationController
   def update
     authorize @booking
     @booking.send("#{params[:status]}!")
+    redirect_to dashboard_path
+  end
+
+  def destroy
+    authorize @booking
+    @booking.destroy
     redirect_to dashboard_path
   end
 
