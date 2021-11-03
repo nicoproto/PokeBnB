@@ -1,7 +1,7 @@
 class BookingPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      scope.all
+      scope.where(user: user) + scope.joins(:pokemon).where(pokemons: { user: user })
     end
   end
 
@@ -10,7 +10,7 @@ class BookingPolicy < ApplicationPolicy
   end
 
   def create?
-    user
+    user.present?
   end
 
 end
