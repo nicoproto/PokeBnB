@@ -6,6 +6,7 @@
     <%= f.input :price %>
     <%= f.input :location %>
     <%= f.association :kinds, as: :check_boxes %>
+    <%= f.input :photo, as: :file %>
     <%= f.submit %>
   <% end %>
 </div>
