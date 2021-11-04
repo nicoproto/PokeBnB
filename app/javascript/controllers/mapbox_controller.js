@@ -16,13 +16,21 @@ export default class extends Controller {
 
     const markers = JSON.parse(this.mapTarget.dataset.markers);
 
-    this.addMarkersToMap(map, markers);
-    this.fitMapToMarkers(map, markers);
+
 
     map.addControl(new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
       mapboxgl: mapboxgl
     }));
+
+    this.addMarkersToMap(map, markers);
+    this.fitMapToMarkers(map, markers);
+
+    // Fixes center moving on refresh
+    window.addEventListener('load', () => {
+      map.resize();
+      this.fitMapToMarkers(map, markers);
+    })
   }
 
   customMarker(marker) {
@@ -52,9 +60,10 @@ export default class extends Controller {
 
   fitMapToMarkers(map, markers) {
     const bounds = new mapboxgl.LngLatBounds();
+
     markers.forEach(marker => bounds.extend([marker.lng, marker.lat]));
     map.fitBounds(bounds, {
-      padding: 70,
+      padding: 100,
       maxZoom: 15,
       duration: 0
     });
