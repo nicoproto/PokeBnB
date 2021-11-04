@@ -9,7 +9,8 @@ class PokemonsController < ApplicationController
       {
         lat: pokemon.latitude,
         lng: pokemon.longitude,
-        info_window: render_to_string(partial: "info_window", locals: { pokemon: pokemon })
+        info_window: render_to_string(partial: "info_window", locals: { pokemon: pokemon }),
+        image_url: "https://res.cloudinary.com/nico1711/image/upload/v1636025416/Poke%CC%81_Ball_icon.svg_aok9qa.png"
       }
     end
   end
