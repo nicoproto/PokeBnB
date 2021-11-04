@@ -16,14 +16,21 @@ export default class extends Controller {
       });
 
       const markers = JSON.parse(this.mapTarget.dataset.markers);
-      markers.forEach((marker) => {
-        new mapboxgl.Marker()
-          .setLngLat([marker.lng, marker.lat])
-          .addTo(map);
-      });
 
+      this.addMarkersToMap(map, markers);
       this.fitMapToMarkers(map, markers);
     }
+  }
+
+  addMarkersToMap(map, markers) {
+    markers.forEach((marker) => {
+      const popup = new mapboxgl.Popup().setHTML(marker.info_window);
+
+      new mapboxgl.Marker()
+        .setLngLat([marker.lng, marker.lat])
+        .setPopup(popup)
+        .addTo(map);
+    });
   }
 
   fitMapToMarkers(map, markers) {
@@ -35,4 +42,5 @@ export default class extends Controller {
       duration: 0
     });
   };
+
 }

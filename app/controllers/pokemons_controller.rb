@@ -6,11 +6,12 @@ class PokemonsController < ApplicationController
 
     # the `geocoded` scope filters only pokemons with coordinates (latitude & longitude)
     @markers = @pokemons.geocoded.map do |pokemon|
-    {
-      lat: pokemon.latitude,
-      lng: pokemon.longitude
-    }
-  end
+      {
+        lat: pokemon.latitude,
+        lng: pokemon.longitude,
+        info_window: render_to_string(partial: "info_window", locals: { pokemon: pokemon })
+      }
+    end
   end
 
   def show
