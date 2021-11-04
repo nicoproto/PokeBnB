@@ -8,24 +8,21 @@ export default class extends Controller {
   static targets = ['map'];
 
   connect() {
-    // only build a map if there's a div#map to inject into
-    if (this.mapTarget) {
-      mapboxgl.accessToken = this.mapTarget.dataset.mapboxApiKey;
-      const map = new mapboxgl.Map({
-        container: this.mapTarget,
-        style: 'mapbox://styles/mapbox/streets-v10'
-      });
+    mapboxgl.accessToken = this.mapTarget.dataset.mapboxApiKey;
+    const map = new mapboxgl.Map({
+      container: this.mapTarget,
+      style: 'mapbox://styles/mapbox/streets-v10'
+    });
 
-      const markers = JSON.parse(this.mapTarget.dataset.markers);
+    const markers = JSON.parse(this.mapTarget.dataset.markers);
 
-      this.addMarkersToMap(map, markers);
-      this.fitMapToMarkers(map, markers);
+    this.addMarkersToMap(map, markers);
+    this.fitMapToMarkers(map, markers);
 
-      map.addControl(new MapboxGeocoder({
-        accessToken: mapboxgl.accessToken,
-        mapboxgl: mapboxgl
-      }));
-    }
+    map.addControl(new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
+      mapboxgl: mapboxgl
+    }));
   }
 
   customMarker(marker) {
