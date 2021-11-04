@@ -3,6 +3,14 @@ class PokemonsController < ApplicationController
 
   def index
     @pokemons = policy_scope(Pokemon)
+
+    # the `geocoded` scope filters only pokemons with coordinates (latitude & longitude)
+    @markers = @pokemons.geocoded.map do |pokemon|
+    {
+      lat: pokemon.latitude,
+      lng: pokemon.longitude
+    }
+  end
   end
 
   def show

@@ -29,7 +29,16 @@ random_reviews = [
 ]
 
 pokemons = ['pikachu', 'charmander', 'bulbasaur', 'squirtle']
-locations = ['forest', 'lake']
+
+puts "🕵️‍♂️ Getting seeding information Yaml files"
+
+puts " - finding locations 📍"
+
+file_path = Rails.root.join("db", "seed_locations.yml")
+seed_file = YAML::load_file(file_path)
+locations = seed_file['barcelona_locations']
+
+puts "Seeding information retrieved ✅"
 
 puts "Deleting database..."
 Review.destroy_all
@@ -44,6 +53,8 @@ ash = User.create!(email: "ash@pokemon.com", password: "password", nickname: "As
 gary = User.create!(email: "gary@pokemon.com", password: "password", nickname: "Gary")
 puts "👥 Done creating users ✅"
 line
+
+location_index = 0
 
 puts "👨‍🔬 Creating new pokemons... 👩‍🔬"
 pokemons.each do |pokemon_name|
@@ -70,9 +81,11 @@ pokemons.each do |pokemon_name|
     name: pokemon['species']['name'],
     description: pokemon_description,
     price: (rand(45..250)),
-    location: locations.sample,
+    location: locations[location_index],
     user: User.all.sample
   )
+
+  location_index += 1
 
   puts "→ #{new_pokemon.name.capitalize} created! #{EMOJI.sample} - Total actual pokemons: #{Pokemon.count}" if new_pokemon.save!
 
