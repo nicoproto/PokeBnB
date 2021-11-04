@@ -11,7 +11,7 @@ export default class extends Controller {
     mapboxgl.accessToken = this.mapTarget.dataset.mapboxApiKey;
     const map = new mapboxgl.Map({
       container: this.mapTarget,
-      style: 'mapbox://styles/mapbox/streets-v10'
+      style: 'mapbox://styles/nproto/ckm6ozdmh3n4317nwpwobg5d8'
     });
 
     const markers = JSON.parse(this.mapTarget.dataset.markers);
