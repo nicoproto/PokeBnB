@@ -1,8 +1,8 @@
-<div class="container col-4">
+<div class="container col-4" >
   <h1 class="text-center">Booking for <%= @pokemon.name.capitalize %></h1>
   <%= simple_form_for [@pokemon, @booking] do |f| %>
-    <%= f.input :start_date %>
-    <%= f.input :end_date %>
+    <%= f.input :start_date, as: :string, input_html: { data: { controller: "flatpickr" } } %>
+    <%= f.input :end_date, as: :string, input_html: { data: { controller: "flatpickr" } } %>
     <%= f.submit %>
   <% end %>
 
