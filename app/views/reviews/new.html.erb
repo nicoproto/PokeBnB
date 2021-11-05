@@ -1,7 +1,7 @@
 <div class="container col-4" >
   <h1 class="text-center">Review your booking</h1>
   <%= simple_form_for [@booking, @review] do |f| %>
-    <%= f.input :rating, collection: (1..5).to_a %>
+    <%= f.input :rating, collection: (1..5).to_a, input_html: { data: { controller: "star-rating" }} %>
     <%= f.input :content %>
     <%= f.submit %>
   <% end %>
