@@ -20,7 +20,7 @@ class Booking < ApplicationRecord
   end
 
   def reviewed?
-    !self.review.nil?
+    !self.review.nil? && !self.review.id.nil?
   end
 
   private
