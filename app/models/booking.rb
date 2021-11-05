@@ -1,4 +1,5 @@
 class Booking < ApplicationRecord
+  # TODO: Can't book on past date
   before_create :set_total_price
 
   belongs_to :pokemon

@@ -22,8 +22,7 @@
           <% if policy(booking).destroy? %>
             <%= link_to "Cancel", booking_path(booking),
 										method: :delete, class: "badge badge-danger",
-										data: { confirm: "Are you sure you want to delete
-										your booking for #{booking.pokemon.name.capitalize}?"} %>
+										data: { confirm: "Are you sure you want to delete your booking for #{booking.pokemon.name.capitalize}?"} %>
           <% end %>
         </div>
       </div>
@@ -34,7 +33,11 @@
     <h2>My Pokemon's bookings</h2>
     <% @received_bookings.each do |booking| %>
       <div class="card-product my-2">
-        <img src="https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/skateboard.jpg" />
+        <% if booking.pokemon.photo.attached? %>
+          <%= cl_image_tag booking.pokemon.photo.key, alt: booking.pokemon.name %>
+        <% else %>
+          <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/004.png" alt="<%= booking.pokemon.name %>">
+        <% end %>
         <div class="card-product-infos">
           <h2><%= booking.pokemon.name.capitalize %></h2>
           <p>
@@ -49,6 +52,7 @@
                                 method: :patch, class: "badge badge-primary" %>
           <%= link_to "Decline", booking_path(booking, { status: "declined"}),
                                 method: :patch, class: "badge badge-danger" %>
+          <%= link_to "Add review", new_booking_review_path(booking), class: "badge badge-warning" %>
         </div>
       </div>
     <% end %>
@@ -59,7 +63,11 @@
     <div class="cards">
       <% current_user.pokemons.each do |pokemon| %>
         <div class="card mx-auto">
-          <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/004.png" class="card-img-top" alt="<%= pokemon.name %>">
+          <% if pokemon.photo.attached? %>
+            <%= cl_image_tag pokemon.photo.key, alt: pokemon.name %>
+          <% else %>
+            <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/004.png" class="card-img-top" alt="<%= pokemon.name %>">
+          <% end %>
           <div class="card-body">
             <h5 class="card-title"><%= pokemon.name.capitalize %></h5>
             <p class="card-text"><%= pokemon.description %></p>
