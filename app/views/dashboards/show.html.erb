@@ -5,7 +5,11 @@
     <h2>My Bookings</h2>
     <% @applied_bookings.each do |booking| %>
       <div class="card-product my-2">
-        <img src="https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/skateboard.jpg" />
+        <% if booking.pokemon.photo.attached? %>
+          <%= cl_image_tag booking.pokemon.photo.key, alt: booking.pokemon.name %>
+        <% else %>
+          <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/004.png" alt="<%= booking.pokemon.name %>">
+        <% end %>
         <div class="card-product-infos">
           <h2><%= booking.pokemon.name.capitalize %></h2>
           <p>
