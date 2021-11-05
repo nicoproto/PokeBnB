@@ -6,6 +6,6 @@ class ReviewPolicy < ApplicationPolicy
   end
 
   def create?
-    record.booking.user == user
+    record.booking.user == user && record.booking.is_reviewable?
   end
 end

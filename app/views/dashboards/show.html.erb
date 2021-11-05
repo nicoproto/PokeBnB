@@ -24,6 +24,9 @@
 										method: :delete, class: "badge badge-danger",
 										data: { confirm: "Are you sure you want to delete your booking for #{booking.pokemon.name.capitalize}?"} %>
           <% end %>
+          <% if booking.is_reviewable? %>
+            <%= link_to "Add review", new_booking_review_path(booking), class: "badge badge-warning" %>
+          <% end %>
         </div>
       </div>
     <% end %>
@@ -48,11 +51,13 @@
           </p>
           <p>Product description with <strong>relevant info</strong> only.</p>
           <p>Status: <strong><%= booking.status.capitalize %></strong></p>
-          <%= link_to "Accept", booking_path(booking, { status: "accepted"}),
-                                method: :patch, class: "badge badge-primary" %>
-          <%= link_to "Decline", booking_path(booking, { status: "declined"}),
-                                method: :patch, class: "badge badge-danger" %>
-          <%= link_to "Add review", new_booking_review_path(booking), class: "badge badge-warning" %>
+          <% if policy(booking).update? %>
+            <%= link_to "Accept", booking_path(booking, { status: "accepted"}),
+                                  method: :patch, class: "badge badge-primary" %>
+            <%= link_to "Decline", booking_path(booking, { status: "declined"}),
+                                  method: :patch, class: "badge badge-danger" %>
+          <% end %>
+
         </div>
       </div>
     <% end %>

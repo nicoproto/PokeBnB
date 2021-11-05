@@ -1,5 +1,4 @@
 class Booking < ApplicationRecord
-  # TODO: Can't book on past date
   before_create :set_total_price
 
   belongs_to :pokemon
@@ -10,6 +9,19 @@ class Booking < ApplicationRecord
   validate :end_date_after_start_date
 
   enum status: [ :pending, :accepted, :declined ]
+
+
+  def is_updatable?
+    (start_date - Date.today) > 0
+  end
+
+  def is_reviewable?
+    (Date.today > end_date) && !reviewed?
+  end
+
+  def reviewed?
+    !self.review.nil?
+  end
 
   private
 

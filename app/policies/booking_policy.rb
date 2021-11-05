@@ -14,10 +14,10 @@ class BookingPolicy < ApplicationPolicy
   end
 
   def update?
-    user == record.pokemon.user
+    user == record.pokemon.user && record.is_updatable?
   end
 
   def destroy?
-    (record.start_date - Date.today) > 1
+    record.is_updatable?
   end
 end
