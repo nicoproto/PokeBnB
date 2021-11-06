@@ -120,7 +120,7 @@ puts "Creating bookings and reviews for all pokemons"
 Pokemon.all.each do |pokemon|
   start_date = Date.today - rand(45..250)
   end_date = start_date + rand(2..20)
-  user = User.all.sample
+  user = User.where.not(email: pokemon.user.email).sample
 
   booking = Booking.new(
     start_date: start_date,
