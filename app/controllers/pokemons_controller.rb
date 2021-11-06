@@ -9,7 +9,11 @@ class PokemonsController < ApplicationController
     end
 
     if params[:location].present?
-      @pokemons = @pokemons.near(params[:location], 2)
+      @pokemons = @pokemons.near(params[:location], 5)
+    end
+
+    if params[:kind].present?
+      @pokemons = @pokemons.joins(kind_pokemons: :kind).where(kind: { name: params[:kind] })
     end
 
     # the `geocoded` scope filters only pokemons with coordinates (latitude & longitude)
