@@ -21,6 +21,10 @@ class BookingsController < ApplicationController
     if @booking.save
       redirect_to booking_path(@booking)
     else
+      # To fix bug with flatpickr showing weird dates
+      @booking.start_date = @booking.start_date
+      @booking.end_date = @booking.end_date
+
       render :new
     end
   end
