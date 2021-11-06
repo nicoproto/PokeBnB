@@ -2,7 +2,11 @@ class PokemonsController < ApplicationController
   skip_before_action :authenticate_user!, only: :index
 
   def index
-    @pokemons = policy_scope(Pokemon)
+    if params[:query].present?
+      @pokemons = policy_scope(Pokemon.global_search(params[:query]))
+    else
+      @pokemons = policy_scope(Pokemon)
+    end
 
     # the `geocoded` scope filters only pokemons with coordinates (latitude & longitude)
     @markers = @pokemons.geocoded.map do |pokemon|

@@ -13,4 +13,14 @@ class Pokemon < ApplicationRecord
   validates :name, :location, presence: true
   validates :price, numericality: { greater_than: 0 }
   validates :description, length: { minimum: 25 }
+
+  include PgSearch::Model
+  pg_search_scope :global_search,
+    against: [ :name, :description ],
+    associated_against: {
+      kinds: [ :name ]
+    },
+    using: {
+      tsearch: { prefix: true }
+    }
 end

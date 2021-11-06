@@ -27,7 +27,7 @@ random_reviews = [
   },
 ]
 
-pokemons = ['pikachu', 'charmander', 'bulbasaur', 'squirtle']
+pokemons = ['pikachu', 'charmander', 'bulbasaur', 'squirtle', 'raichu']
 
 puts "🕵️‍♂️ Getting seeding information Yaml files"
 
