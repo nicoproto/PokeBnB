@@ -6,7 +6,7 @@
     <%= f.input :price %>
     <%= f.input :location, input_html: { "data-placesjs-target": "location" } %>
     <%= f.association :kinds, as: :check_boxes %>
-    <%= f.input :photo, as: :file %>
+    <%= f.input :photo, input_html: { class: 'd-none' }, label_html: { class: 'upload-photo'}, label: '📷 Upload a photo' %>
     <%= f.submit %>
   <% end %>
 </div>
