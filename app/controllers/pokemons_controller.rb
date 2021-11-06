@@ -8,6 +8,10 @@ class PokemonsController < ApplicationController
       @pokemons = policy_scope(Pokemon)
     end
 
+    if params[:location].present?
+      @pokemons = @pokemons.near(params[:location], 2)
+    end
+
     # the `geocoded` scope filters only pokemons with coordinates (latitude & longitude)
     @markers = @pokemons.geocoded.map do |pokemon|
       {
