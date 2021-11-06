@@ -12,24 +12,23 @@ end
 
 EMOJI = ["👍", "👌", "🤙", "💪", "🙌", "👏", "🦾"].freeze
 
-random_reviews = [
-  {
-    rating: 1,
-    content: "Horrible, it ate my carpet when I wasn't home!"
-  },
-  {
-    rating: 5,
-    content: "I loved it, best pokemon ever!"
-  },
-  {
-    rating: 4,
-    content: "Amazing, was expecting it to be a bit better but I really enjoyed it."
-  },
-]
+# ---------- STARTING SEEDING ----------
 
-pokemons = ['pikachu', 'charmander', 'bulbasaur', 'squirtle', 'raichu']
+puts "🧹Cleaning up the database"
+Kind.destroy_all
+Pokemon.destroy_all
+User.destroy_all
+puts "Done deleting database ✅"
+
+line
 
 puts "🕵️‍♂️ Getting seeding information Yaml files"
+
+puts " - finding reviews 🗣"
+
+file_path = Rails.root.join("db", "seed_reviews.yml")
+seed_file = YAML::load_file(file_path)
+reviews = seed_file['reviews']
 
 puts " - finding locations 📍"
 
@@ -37,19 +36,32 @@ file_path = Rails.root.join("db", "seed_locations.yml")
 seed_file = YAML::load_file(file_path)
 locations = seed_file['barcelona_locations']
 
+puts " - finding pokemon trainers 👥"
+
+file_path = Rails.root.join("db", "seed_trainers.yml")
+seed_file = YAML::load_file(file_path)
+trainers = seed_file['trainers']
+
+puts " - finding pokemons 🦄 🐸 🐍"
+file_path = Rails.root.join("db", "seed_pokemons.yml")
+seed_file = YAML::load_file(file_path)
+
+pokemons = []
+seed_file['pokemons'].each_with_index do |pokemon, index|
+  pokemons << pokemon.downcase.gsub(" ", "-")
+end
+
 puts "Seeding information retrieved ✅"
 
-puts "Deleting database..."
-Review.destroy_all
-Booking.destroy_all
-Pokemon.destroy_all
-User.destroy_all
-puts "Done deleting database ✅"
 
-line
-puts "👥 Creating users "
-ash = User.create!(email: "ash@pokemon.com", password: "password", nickname: "Ash")
-gary = User.create!(email: "gary@pokemon.com", password: "password", nickname: "Gary")
+puts "👥 Creating trainers "
+trainers.each do |trainer|
+  new_trainer = User.create!(email: trainer["email"], password: "password", nickname: trainer["nickname"])
+  # new_trainer_avatar = URI.open(trainer["avatar"])
+  # new_trainer.avatar.attach(io: new_trainer_avatar, filename: "#{new_trainer.nickname}_avatar.png", content_type: 'image/png')
+  puts "Pokemon trainer #{new_trainer.nickname.capitalize} ready to battle 🙌🏻"
+end
+
 puts "👥 Done creating users ✅"
 line
 
@@ -122,7 +134,7 @@ Pokemon.all.each do |pokemon|
   booking.save!(validate: false)
   puts "→ Booking created: #{user.nickname.capitalize} booked #{pokemon.name.capitalize} from #{start_date} to #{end_date}."
 
-  review = Review.new(random_reviews.sample)
+  review = Review.new(reviews.sample)
   review.booking = booking
   review.save!(validate: false)
   puts "    → #{user.nickname.capitalize} reviewed this booking with a #{review.rating}"
