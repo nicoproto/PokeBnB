@@ -84,6 +84,11 @@ pokemons.each do |pokemon_name|
     user: User.all.sample
   )
 
+  pokemon['types'].each do |pokemon_type|
+    kind = Kind.find_or_create_by!(name: pokemon_type["type"]["name"])
+    KindPokemon.create!(pokemon: new_pokemon, kind: kind)
+  end
+
   location_index += 1
 
   puts "→ #{new_pokemon.name.capitalize} created! #{EMOJI.sample} - Total actual pokemons: #{Pokemon.count}" if new_pokemon.save!
@@ -105,19 +110,21 @@ Pokemon.all.each do |pokemon|
   end_date = start_date + rand(2..20)
   user = User.all.sample
 
-  booking = Booking.create!(
+  booking = Booking.new(
     start_date: start_date,
     end_date: end_date,
     pokemon: pokemon,
     user: user
   )
+  booking.save(validate: false)
   # TODO: Randomize this to be between accepted and declined
-  booking.accepted!
+  booking.status = "accepted"
+  booking.save!(validate: false)
   puts "→ Booking created: #{user.nickname.capitalize} booked #{pokemon.name.capitalize} from #{start_date} to #{end_date}."
 
   review = Review.new(random_reviews.sample)
   review.booking = booking
-  review.save!
+  review.save!(validate: false)
   puts "    → #{user.nickname.capitalize} reviewed this booking with a #{review.rating}"
   line
 end
