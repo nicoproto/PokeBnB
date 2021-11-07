@@ -10,7 +10,7 @@ class BookingPolicy < ApplicationPolicy
   end
 
   def create?
-    user.present?
+    user.present? && record.pokemon.user != user
   end
 
   def update?

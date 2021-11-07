@@ -30,6 +30,8 @@
   <% end %>
 
   <h4>Manage</h4>
-  <%= link_to "Book", new_pokemon_booking_path(@pokemon), class: "btn btn-primary"  %>
+  <% if policy(Booking.new(pokemon: @pokemon)).new? %>
+    <%= link_to "Book", new_pokemon_booking_path(@pokemon), class: "btn btn-primary"  %>
+  <% end %>
   <%= link_to "Back", pokemons_path, class: "btn btn-link"  %>
 </div>
