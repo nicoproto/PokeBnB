@@ -1,10 +1,26 @@
-<div class="container col-4" >
+<div class="container col-4" data-controller="price-update">
   <h1 class="text-center">Booking for <%= @pokemon.name.capitalize %></h1>
   <%= simple_form_for [@pokemon, @booking] do |f| %>
-    <%= f.input :start_date, as: :string, input_html: { data: { controller: "flatpickr" } } %>
-    <%= f.input :end_date, as: :string %>
+    <%= f.input :start_date,
+          as: :string,
+          input_html: {
+            data: {
+              controller: "flatpickr",
+              price_update_target: "start"
+            } } %>
+    <%= f.input :end_date,
+          as: :string,
+          input_html: {
+            data: {
+              price_update_target: "end"
+            } } %>
     <%= f.submit %>
   <% end %>
+
+  <p><strong>Price: </strong>$<span data-price-update-target="price"><%= @pokemon.price %></span> / day</p>
+  <div class="price-box" data-price-update-target="box">
+    <p><strong>Total price: </strong>$<span data-price-update-target="total">XXX</span></p>
+  </div>
 
   <%= link_to "Back", pokemon_path(@pokemon), class: "btn btn-link"  %>
 </div>

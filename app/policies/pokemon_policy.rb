@@ -10,6 +10,6 @@ class PokemonPolicy < ApplicationPolicy
   end
 
   def create?
-    user
+    user.present?
   end
 end

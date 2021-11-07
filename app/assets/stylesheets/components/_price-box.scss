@@ -1,0 +1,9 @@
+.price-box {
+  max-height: 0;
+  overflow: hidden;
+  transition: all 1s ease-in-out;
+
+  &.active {
+    max-height: 500px;
+  }
+}
