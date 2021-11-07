@@ -1,24 +1,33 @@
-<div class="container col-4">
-  <% if @pokemon.photo.attached? %>
-	  <%= cl_image_tag @pokemon.photo.key, alt: @pokemon.name %>
-	<% else %>
-	  <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/004.png" class="card-img-top" alt="<%= @pokemon.name %>">
-	<% end %>
-  <h1 class="text-center"><%= @pokemon.name.capitalize %></h1>
-  <p><strong>Price: </strong>$<%= @pokemon.price %> / day</p>
-  <p><strong>Location: </strong><%= @pokemon.location %></p>
-  <div>
-    <h4>Description</h4>
-    <p><%= @pokemon.description %></p>
-  </div>
-
-  <div>
-    <h4>Types</h4>
-    <% @pokemon.kinds.each do |kind| %>
-      <div class="badge badge-primary mb-3">
-        <%= kind.name %>
+<div class="container col-8">
+  <div class="d-flex align-items-center">
+    <div>
+      <h1 class="text-center"><%= @pokemon.name.capitalize %></h1>
+      <% if @pokemon.photo.attached? %>
+        <%= cl_image_tag @pokemon.photo.key, alt: @pokemon.name %>
+      <% else %>
+        <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/004.png" class="card-img-top" alt="<%= @pokemon.name %>">
+      <% end %>
+    </div>
+    <div>
+      <p><strong>Price: </strong>$<%= @pokemon.price %> / day</p>
+      <p><strong>Location: </strong><%= @pokemon.location %></p>
+      <div>
+        <h4>Description</h4>
+        <p><%= @pokemon.description %></p>
       </div>
-    <% end %>
+
+      <div>
+        <h4>Types</h4>
+        <% @pokemon.kinds.each do |kind| %>
+          <div class="badge badge-primary mb-3">
+            <%= kind.name %>
+          </div>
+        <% end %>
+      </div>
+      <% if policy(Booking.new(pokemon: @pokemon, user: current_user)).new? %>
+        <%= link_to "Book", new_pokemon_booking_path(@pokemon), class: "btn btn-primary"  %>
+      <% end %>
+    </div>
   </div>
 
   <h4>Reviews</h4>
@@ -29,9 +38,5 @@
     </div>
   <% end %>
 
-  <h4>Manage</h4>
-  <% if policy(Booking.new(pokemon: @pokemon)).new? %>
-    <%= link_to "Book", new_pokemon_booking_path(@pokemon), class: "btn btn-primary"  %>
-  <% end %>
   <%= link_to "Back", pokemons_path, class: "btn btn-link"  %>
 </div>

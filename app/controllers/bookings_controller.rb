@@ -7,7 +7,8 @@ class BookingsController < ApplicationController
 
   def new
     @pokemon = Pokemon.find(params[:pokemon_id])
-    @booking = Booking.new
+    # We add the pokemon and user to the booking because of pundit
+    @booking = Booking.new(pokemon: @pokemon, user: current_user)
     authorize @booking
   end
 
