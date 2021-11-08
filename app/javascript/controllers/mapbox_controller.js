@@ -30,6 +30,7 @@ export default class extends Controller {
     window.addEventListener('load', () => {
       map.resize();
       this.fitMapToMarkers(map, markers);
+      console.log('MAPBOX')
     })
   }
 

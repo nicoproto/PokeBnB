@@ -3,9 +3,9 @@
 </div>
 
 <div class="map-layout">
-  <div class="cards container">
+  <div class="cards container" data-controller="aos">
     <% @pokemons.each do |pokemon| %>
-      <div class="card mx-auto">
+      <div class="card mx-auto" data-aos="fade-up">
         <% if pokemon.photo.attached? %>
           <%= cl_image_tag pokemon.photo.key, alt: pokemon.name %>
         <% else %>
