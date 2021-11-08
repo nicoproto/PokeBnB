@@ -14,3 +14,33 @@
     <%= submit_tag "Search", class: "btn btn-primary" %>
   <% end %>
 </div>
+
+<div data-controller="sweetalert" data-title="Error!" data-text="Do you want to continue">
+  <button data-action="click->sweetalert#trigger">
+    culo
+  </button>
+  <%= link_to "destroy", dashboard_path, class: "d-none" %>
+</div>
+
+
+<div data-controller="sweetalert"
+  data-title="Banana!"
+  data-text="Do you want to continue"
+  data-icon="success">
+  <button data-action="click->sweetalert#trigger">
+    culo
+  </button>
+  <%= link_to "destroy", dashboard_path, class: "d-none" %>
+</div>
+
+
+<div data-controller="sweetalert"
+  data-title="Apple!"
+  data-text="Do you want to continue"
+  data-icon="error"
+  data-cancel=true>
+  <button data-action="click->sweetalert#trigger" >
+    culo
+  </button>
+  <%= link_to "destroy", dashboard_path, class: "d-none" %>
+</div>
