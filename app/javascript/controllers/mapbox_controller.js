@@ -16,8 +16,6 @@ export default class extends Controller {
 
     const markers = JSON.parse(this.mapTarget.dataset.markers);
 
-
-
     map.addControl(new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
       mapboxgl: mapboxgl
@@ -30,8 +28,9 @@ export default class extends Controller {
     window.addEventListener('load', () => {
       map.resize();
       this.fitMapToMarkers(map, markers);
-      console.log('MAPBOX')
     })
+
+    this.markersHover();
   }
 
   customMarker(marker) {
@@ -69,5 +68,46 @@ export default class extends Controller {
       duration: 0
     });
   };
+
+
+  tiltMarker(marker, rotation) {
+    marker.style.transition = "all 0.5s ease"
+    let string = marker.style.transform;
+    let array = string.split(")");
+    let new_string = array[0] + ") " + array[1] + ") " + `rotate(${rotation}deg)`;
+    marker.style.transform = new_string;
+  };
+
+  renderTilt(collection, array, markers) {
+    collection.forEach((instance) => {
+      instance.addEventListener("mouseover", (event) => {
+        const instance_index = array.indexOf(event.currentTarget);
+        this.tiltMarker(markers[instance_index], 30);
+        setTimeout(() => {
+          this.tiltMarker(markers[instance_index], -30);
+        }, 200);
+        setTimeout(() => {
+          this.tiltMarker(markers[instance_index], 0);
+        }, 400);
+        setTimeout(() => {
+          this.tiltMarker(markers[instance_index], -30);
+        }, 600);
+        setTimeout(() => {
+          this.tiltMarker(markers[instance_index], 0);
+        }, 800);
+      });
+    });
+  }
+
+  markersHover() {
+    const cards = document.querySelectorAll(".cards .card");
+    const cards_array = Array.prototype.slice.call(cards);
+
+    const markers = document.querySelectorAll(".marker");
+    const markers_array = Array.prototype.slice.call(markers);
+
+    this.renderTilt(cards, cards_array, markers);
+    this.renderTilt(markers, markers_array, markers);
+  }
 
 }
